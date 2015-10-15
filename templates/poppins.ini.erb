@@ -1,0 +1,128 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; INTRODUCTION 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ini file options may be overridden at the cli
+; e.g. poppins -c example.ini --remote-host=localhost
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LOCAL 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[local]
+; root dir (parent dir for backups)
+; use an absolute path
+; e.g. rootdir = /backups 
+; rootdir = "/backups/hosts"
+rootdir = "<%= rootdir %>"
+; each backup log will be written to this directory
+; you may use a directory per host or one for all hosts
+; use an absolute path
+; e.g. logdir = "/root/poppins/logs";
+logdir = "<%= logdir %>"
+; override hostdir name used to store backup
+; default is value specified by -h or 
+; remote host parameter in ini file
+; leave empty if default is required
+hostdir-name = '<%=hostdir_name %>'
+; create a host dir if not exists (yes or no)
+; useful when script is ran for the first time
+hostdir-create = 'yes'
+; special local filesystem options: default/ZFS/BTRFS
+; use ZFS or BTRFS if you want to use shapshot features
+; for these filesystems. Otherwise, use default.
+filesystem = 'ZFS'
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; REMOTE 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[remote]
+; IP or resolvable host name. This variable may be overriden by the -h parameter
+; in which case set host to an empty string. You may use this ini file then as 
+; a template, e.g. poppins --remote-host=webserver1 -c webserver.poppins.ini
+host = '<%= remote_host %>'
+; Remote user, usually root. If not specified, same user who executes poppins is assumed.
+user = ''
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SNAPSHOTS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[snapshots]
+; incremental backups to keep
+; These backups will be kept until number is reached. In that
+; case, oldest backup will be removed.  
+incremental = 2
+; periodic snapshots to keep
+; syntax: {offset}-{period} = {number of backups to keep}
+; first number indicates offset: e.g. 2-weekly will keep a snapshot every 2 weeks
+; period may include minutely, hourly, daily, weekly, monthly, yearly
+; number of backups to keep = if number is reached, oldest will be deleted
+; minutely
+; 2-minutely = 3
+; hourly
+; 1-hourly = 1
+; daily 
+1-daily = 7
+; weekly (7 days)
+1-weekly = 4
+;2-weekly = 4
+; monthly (30 day period)
+1-monthly = 3
+;6-monthly = 5
+; yearly
+1-yearly = 1
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; INCLUDED DIRECTORIES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; best to create a directory per partition you back up, 
+; rsync won't traverse file system limits anyway (rsync -x)
+; format: source (remote) = target (local)
+; may be left empty, if only MySQL is needed
+[included]
+<% if included.is_a? Hash %>
+<% included.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
+<% end %>
+; /foo = 'bar'
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; EXCLUDED DIRECTORIES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; comma seperated list of excluded directories
+; use a relative path 
+; e.g. /var =  "lib/mysql","www"  
+[excluded]
+<% if excluded.is_a? Hash %>
+<% excluded.each do |path, dir| %><%= "  #{path} = 'dir'\n" %><% end %>
+<% end %>
+; /var =  "lib/mysql"
+; / = sys,proc,var,boot
+; /home/poppins/contains\ spaces = contains\ other\ spaces
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; METADATA
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[meta]
+; report remote disk layout
+remote-disk-layout =  yes
+; report remote package list
+remote-package-list =  yes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LOG
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[log]
+; log total disk usage of backups
+local-disk-usage =  yes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; RSYNC 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[rsync]
+; passed straight to rsync. This is for network transfer only. 
+compresslevel = 0
+; preserve hardlinks, default is no
+hardlinks = no
+; verbose rsync, default is no
+verbose = yes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; MYSQL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[mysql]
+; MYSQL, set to yes/no;
+enabled = yes
+; credentials - remote user directories where .my.cnf files are located
+; if left empty, root dir is assumed
+; multiple directories may be seperated by comma
+; e.g. configdirs = '/root,/home/brdooms';
+configdirs = /root,/home/poppins
