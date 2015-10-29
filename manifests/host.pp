@@ -1,4 +1,5 @@
 define poppins::host (
+    $zfs       = "backups/poppins/server",
     $included =  { 
 	"/"         => "root",
 	"/var"      => "var",
@@ -6,7 +7,6 @@ define poppins::host (
 	"/home"     => "home",
     },
     $excluded     =  { "/" => "/tmp" },
-    $zfs          = "backups/poppins/server",
     $hostdir_name = $::hostname,
     $remote_host  = $::ipaddress,
     $ensure       = present,
@@ -19,8 +19,8 @@ define poppins::host (
     @@cron { "poppins-$name":
 	command => "PATH=/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/bin/poppins -c \"$configfile_path\"",
 	user    => root,
-	hour    => 17,
-	minute  => 10,
+	hour    => 0,
+	minute  => 15,
 	tag     => poppins,
 	ensure  => $ensure,
     }
