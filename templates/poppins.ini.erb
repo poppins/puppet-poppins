@@ -91,7 +91,7 @@ incremental = 2
 ; e.g. /var =  "lib/mysql","www"  
 [excluded]
 <% if excluded.is_a? Hash %>
-<% excluded.each do |path, dir| %><%= "  #{path} = 'dir'\n" %><% end %>
+<% excluded.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
 <% end %>
 ; /var =  "lib/mysql"
 ; / = sys,proc,var,boot
