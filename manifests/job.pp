@@ -1,3 +1,0 @@
-class poppins::job (
-){
-}

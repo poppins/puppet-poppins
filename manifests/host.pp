@@ -6,10 +6,13 @@ define poppins::host (
 	"/boot"     => "boot",
 	"/home"     => "home",
     },
-    $excluded     =  { "/" => "/tmp" },
-    $hostdir_name = $::hostname,
-    $remote_host  = $::ipaddress,
-    $ensure       = present,
+    $excluded         =  { "/" => "/tmp" },
+    $hostdir_name     = $::hostname,
+    $remote_host      = $::ipaddress,
+    $ensure           = present,
+    $pre_backup_remote_job = "",
+    $mysql_enabled    = false,
+    $mysql_configdirs = undef,
 )  {
     #$configdir=params_lookup(configdir)
     include poppins::params
