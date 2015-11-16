@@ -10,9 +10,10 @@ define poppins::host (
     $hostdir_name     = $::hostname,
     $remote_host      = $::ipaddress,
     $ensure           = present,
-    $pre_backup_remote_job = "",
+    $pre_backup_script = "",
     $mysql_enabled    = false,
     $mysql_configdirs = undef,
+    $hour             = 0,
 )  {
     #$configdir=params_lookup(configdir)
     include poppins::params
@@ -22,7 +23,7 @@ define poppins::host (
     @@cron { "poppins-$name":
 	command => "PATH=/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/bin/poppins -c \"$configfile_path\"",
 	user    => root,
-	hour    => 0,
+	hour    => $hour,
 	minute  => 15,
 	tag     => poppins,
 	ensure  => $ensure,
