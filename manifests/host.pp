@@ -19,9 +19,8 @@ define poppins::host (
     include poppins::params
     $configdir = $::poppins::params::configdir
     $configfile_path = "$configdir/$hostdir_name.poppins.ini"
-    notify { "configfile path: $configfile_path": }
     @@cron { "poppins-$name":
-	command => "PATH=/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/bin/poppins -c \"$configfile_path\"",
+	command => "PATH=/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/bin/poppins -c \"$configfile_path\" >/dev/null",
 	user    => root,
 	hour    => $hour,
 	minute  => 15,
