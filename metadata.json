@@ -2,11 +2,11 @@
   "name": "frvdamme-poppins",
   "version": "0.1.0",
   "author": "frvdamme",
-  "summary": "install config files and cron jobs to back up hosts",
+  "summary": "Manage system backups with the Poppins backup script",
   "license": "Apache 2.0",
-  "source": "https://bitbucket.org/poppins/poppins",
-  "project_page": null,
-  "issues_url": null,
+  "source": "https://bitbucket.org/poppins/puppet",
+  "project_page": "https://bitbucket.org/poppins",
+  "issues_url": "https://bitbucket.org/poppins/puppet/issues",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",

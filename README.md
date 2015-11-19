@@ -15,46 +15,98 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This module takes care of configuring your backups using Poppins, a PHP script
+that uses rsync to copy (pull) files to your backup machine and creates a 
+rotating scheme of incremental snapshots. Works on Linux and some Solaris
+variants.
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
+Uses an exported resource poppins::host to designate the host(s) which need to
+be backed up. On your backup machine, you would include the "poppins" class to
+configure everything that's needed for an automated backup of these hosts. At a
+minimum, you need to list the mounted file systems or directories you want to
+back up and a ZFS file system to back up to (see below). 
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+The file system in question will be created automatically, Poppins will be installed, and configuration file for each backup job will be generated and scheduled as a cron job.
 
 ## Setup
 
 ### What poppins affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+On the host that will be backed up, information is gathered such as the hostname of ip address of the machine. 
 
-### Setup Requirements **OPTIONAL**
+On the backup machine:
+* A Mercurial repository will be created in /opt/poppins containing the latest
+  edition of poppins
+* Configuration files for each backup job will be created in
+  /root/poppins/config, called <hostname>.poppins.ini
+* /usr/bin/poppins will be symlinked to /opt/poppins/init.php
+* a ZFS file system will be created per backup job; this needs to be a child
+  file system of an existing zpool
+* Log files will be put in /root/poppins/logs, per backup job as well as a
+  poppins.log file containing one line per job ran (=Poppins functionality)
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+The cron job will be silent (log files contain full output), except for some
+messages on stdout, which ideally should indicate a malfunctioning. 
 
-### Beginning with poppins
+### Setup Requirements
 
-The very basic steps needed for a user to get the module up and running.
+Poppins can backup to any host and use directories containing the snapshots
+with hardlinked files, where unchanged files are hardlinked to the same file in
+the older snapshots. It can also use the snapshotting features of BTRFS or ZFS.
+This Puppet module, however, only supports ZFS at the moment (on OpenIndiana as
+well as on Linux using zfsonlinux; it probably works on Oracle Solaris as
+well). 
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+Make sure SSH server and client are compatible. On OpenIndiana, you need to
+install openssh using [OpenCSW](http://www.opencsw.org).
+
+Poppins presumes a functioning passwordless (root) login from your backup
+server to your host, using public/private key pairs. The puppet resource
+ssh_authorized_key can be a great help for this.
+
+You will need to install PHP (command line), rsync on both backup server and
+backed up hosts, an SSH server on the hosts and client on the server.
+Unfortunately, the PHP packages for OpenIndiana and OpenCSW, at the moment, are
+too old to run Poppins (5.3.3). We have not yet come up with a more user
+friendly solution than downloading and compiling PHP yourself, then symlinking
+the cli binary from /usr/bin. 
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+On your backed up host, this is an example resource you could use:
+
+    poppins::host { "$::hostname": 
+	zfs               => backups-zpool/poppins-filesystem/homeboxes,
+    }
+
+The backups will thus end up in
+/backups-zpool/poppins-filesystem/homeboxes/your-computers-hostname
+
+In a default configuration, this will back up your /, /boot, /var and /home
+file systems; in case you don't have separate file systems for these, they will
+actually be backed up twice, so you might want to customise that :-)
+
+A slightly more elaborate configuration could be:
+
+    poppins::host { "$::hostname": 
+	zfs         => backups-zpool/poppins-filesystem/homeboxes,
+	included    =>  { "/" => "root", "/home" => "home" },
+	excluded    =>   { "/" => "/tmp" },
+    }
+
+Other parameters:
+* $remote_host: will be used as host name to which to connect; you could use
+  $::ipaddress for example;
+* $hostdir_name: by default: $::hostname; this will become the name of the zfs
+  file system below your the file system you specified in $zfs;
+* hour: affects start time of the cron job;
+* pre_backup_script: will be executed remotely before the backup, useful for
+  applications which do not like live backups of their data
+  your zfs file system names
+* mysql_enabled and mysql_configdirs: enables backing up of MySQL databases; 
+  see Poppins documentation.
 
 ## Reference
 
@@ -65,15 +117,11 @@ with things. (We are working on automating this section!)
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Tested using Puppet 3.6 on Linux (Debian 6-8, Red Hat 6-7) and OpenIndiana
+(151a9) both as backup server and as client machine.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+## Release Notes/Contributors/Etc 
 
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Written by Frank Van Damme. See Mercurial log for changes.
