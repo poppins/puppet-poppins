@@ -37,15 +37,15 @@ The file system in question will be created automatically, Poppins will be insta
 On the host that will be backed up, information is gathered such as the hostname of ip address of the machine. 
 
 On the backup machine:
-* A Mercurial repository will be created in /opt/poppins containing the latest
-  edition of poppins
-* Configuration files for each backup job will be created in
-  /root/poppins/config, called <hostname>.poppins.ini
-* /usr/bin/poppins will be symlinked to /opt/poppins/init.php
-* a ZFS file system will be created per backup job; this needs to be a child
-  file system of an existing zpool
-* Log files will be put in /root/poppins/logs, per backup job as well as a
-  poppins.log file containing one line per job ran (=Poppins functionality)
+    * A Mercurial repository will be created in /opt/poppins containing the
+      latest edition of poppins
+    * Configuration files for each backup job will be created in
+      /root/poppins/config, called <hostname>.poppins.ini
+    * /usr/bin/poppins will be symlinked to /opt/poppins/init.php
+    * a ZFS file system will be created per backup job; this needs to be a
+      child file system of an existing zpool
+    * Log files will be put in /root/poppins/logs, per backup job as well as a
+      poppins.log file containing one line per job ran (=Poppins functionality)
 
 The cron job will be silent (log files contain full output), except for some
 messages on stdout, which ideally should indicate a malfunctioning. 
@@ -64,7 +64,7 @@ install openssh using [OpenCSW](http://www.opencsw.org).
 
 Poppins presumes a functioning passwordless (root) login from your backup
 server to your host, using public/private key pairs. The puppet resource
-ssh_authorized_key can be a great help for this.
+ssh\_authorized\_key can be a great help for this.
 
 You will need to install PHP (command line), rsync on both backup server and
 backed up hosts, an SSH server on the hosts and client on the server.
@@ -97,16 +97,16 @@ A slightly more elaborate configuration could be:
     }
 
 Other parameters:
-* $remote_host: will be used as host name to which to connect; you could use
-  $::ipaddress for example;
-* $hostdir_name: by default: $::hostname; this will become the name of the zfs
-  file system below your the file system you specified in $zfs;
-* hour: affects start time of the cron job;
-* pre_backup_script: will be executed remotely before the backup, useful for
-  applications which do not like live backups of their data
-  your zfs file system names
-* mysql_enabled and mysql_configdirs: enables backing up of MySQL databases; 
-  see Poppins documentation.
+    * $remote\_host: will be used as host name to which to connect; you could
+      use $::ipaddress for example;
+    * $hostdir\_name: by default: $::hostname; this will become the name of the
+      zfs file system below your the file system you specified in $zfs;
+    * hour: affects start time of the cron job;
+    * pre\_backup\_script: will be executed remotely before the backup, useful
+      for applications which do not like live backups of their data your zfs
+      file system names
+    * mysql\_enabled and mysql\_configdirs: enables backing up of MySQL
+      databases; see Poppins documentation.
 
 ## Reference
 
