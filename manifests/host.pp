@@ -20,7 +20,7 @@ define poppins::host (
     $configdir = $::poppins::params::configdir
     $configfile_path = "$configdir/$hostdir_name.poppins.ini"
     @@cron { "poppins-$name":
-	command => "PATH=/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/bin/poppins -c \"$configfile_path\" >/dev/null",
+	command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/bin/poppins -c \"$configfile_path\" >/dev/null",
 	user    => root,
 	hour    => $hour,
 	minute  => 15,
@@ -28,13 +28,15 @@ define poppins::host (
 	ensure  => $ensure,
     }
     @@poppins::configfile { "$configfile_path":
-	included     => $included,
-	excluded     => $excluded,
-	hostdir_name => $hostdir_name,
-	remote_host  => $remote_host,
-	rootdir      => "/$zfs",
-	logdir       => "$::poppins::params::logdir",
-	ensure       => $ensure,
+	included         => $included,
+	excluded         => $excluded,
+	hostdir_name     => $hostdir_name,
+	remote_host      => $remote_host,
+	rootdir          => "/$zfs",
+	logdir           => "$::poppins::params::logdir",
+	ensure           => $ensure,
+	mysql_enabled    => $mysql_enabled,
+	mysql_configdirs => $mysql_configdirs,
     }
     @@zfs { "$zfs/$hostdir_name": 
 	ensure => present,
