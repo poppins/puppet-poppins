@@ -56,6 +56,7 @@ class poppins (
 	provider => hg,
 	revision => "default",
 	source   => "https://bitbucket.org/poppins/poppins",
+	require  => Class['php'],
     }
     file { "/usr/bin/poppins":
 	ensure => link,

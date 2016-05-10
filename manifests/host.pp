@@ -37,6 +37,7 @@ define poppins::host (
 	ensure           => $ensure,
 	mysql_enabled    => $mysql_enabled,
 	mysql_configdirs => $mysql_configdirs,
+	pre_backup_script => $pre_backup_script,
     }
     @@zfs { "$zfs/$hostdir_name": 
 	ensure => present,
