@@ -20,7 +20,7 @@ define poppins::host (
     $configdir = $::poppins::params::configdir
     $configfile_path = "$configdir/$hostdir_name.poppins.ini"
     @@cron { "poppins-$name":
-	command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/bin/poppins -c \"$configfile_path\" >/dev/null",
+	command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin ionice -n 7 /usr/bin/poppins -c \"$configfile_path\" >/dev/null",
 	user    => root,
 	hour    => $hour,
 	minute  => 15,
