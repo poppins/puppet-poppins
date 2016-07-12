@@ -1,5 +1,5 @@
 class poppins::params {
-    $maindir = "/root/poppins"
-    $logdir = "/root/poppins/logs"
-    $configdir = "/root/poppins/config"
+    $maindir = "/root/poppins.d"
+    $logdir = "/root/poppins.d/logs"
+    $configdir = "/root/poppins.d/config"
 }
