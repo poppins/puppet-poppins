@@ -14,6 +14,7 @@ define poppins::host (
     $mysql_enabled    = false,
     $mysql_configdirs = undef,
     $hour             = 0,
+    $minute           = 0,
 )  {
     #$configdir=params_lookup(configdir)
     include poppins::params
@@ -23,7 +24,7 @@ define poppins::host (
 	command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin ionice -n 7 /usr/bin/poppins -c \"$configfile_path\" >/dev/null",
 	user    => root,
 	hour    => $hour,
-	minute  => 15,
+	minute  => $minute,
 	tag     => poppins,
 	ensure  => $ensure,
     }
