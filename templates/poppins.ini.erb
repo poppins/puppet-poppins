@@ -16,17 +16,17 @@
 ; use an absolute path
 ; e.g. rootdir = /backups 
 ; rootdir = "/backups/hosts"
-rootdir = "<%= rootdir %>"
+rootdir = "<%= @rootdir %>"
 ; each backup log will be written to this directory
 ; you may use a directory per host or one for all hosts
 ; the poppins application log (poppins.log) will also log here
 ; use an absolute path
 ; e.g. logdir = "/root/poppins/logs";
-logdir = "<%= logdir %>"
+logdir = "<%= @logdir %>"
 ; override hostdir name used to store backup
 ; default is value specified by host in [remote] section
 ; leave empty if default is required
-hostdir-name = '<%=hostdir_name %>'
+hostdir-name = '<%= @hostdir_name %>'
 ; create a host dir if not exists (yes or no)
 ; useful when script is ran for the first time
 hostdir-create = yes
@@ -41,12 +41,12 @@ snapshot-backend = 'zfs'
 ; IP or resolvable host name. This variable may be overriden on the cli
 ; as any parameter in this config file. For example, you may use this ini file as 
 ; a template, e.g. poppins --remote-host=webserver1 -c webservers.poppins.ini
-host = '<%= remote_host %>'
+host = '<%= @remote_host %>'
 ; Remote user, usually root. If not specified, same user who executes poppins is assumed.
 user = ''
 ; remote script ran before backup
 ; e.g. pre-backup-script = "/home/poppins/some-pre-backup-script.sh";
-pre-backup-script = "<%= pre_backup_script %>";
+pre-backup-script = "<%= @pre_backup_script %>";
 ; if the remote job fails, abort or continue with poppins backups
 ; values are "abort" or "continue"
 pre-backup-onfail = "abort";
@@ -70,8 +70,8 @@ retry-timeout = 10
 ; format: source (remote) = target (local)
 ; may be left empty, if only MySQL is needed
 [included]
-<% if included.is_a? Hash %>
-<% included.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
+<% if @included.is_a? Hash %>
+<% @included.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
 <% end %>
 ; /foo = 'bar'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -82,8 +82,8 @@ retry-timeout = 10
 ; use a relative path to the directive! 
 ; e.g. /var =  "lib/mysql","www"  
 [excluded]
-<% if excluded.is_a? Hash %>
-<% excluded.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
+<% if @excluded.is_a? Hash %>
+<% @excluded.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
 <% end %>
 ; /var =  "lib/mysql"
 ; / = sys,proc,var,boot
@@ -152,7 +152,7 @@ retry-timeout = 10
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [mysql]
 ; MySQL backups, set to yes/no;
-enabled = <%= mysql_enabled %>
+enabled = <%= @mysql_enabled %>
 ; credentials - remote user directories where .my.cnf files are located
 ; if left empty, home dir is assumed
 ; multiple directories may be seperated by comma
