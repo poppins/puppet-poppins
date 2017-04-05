@@ -9,6 +9,8 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with poppins](#beginning-with-poppins)
 4. [Usage - Configuration options and additional functionality](#usage)
+    * [Simple usage: defining the poppins::host resource](#poppins::host)
+    * [Hiera integration](#hiera-integration)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
@@ -75,6 +77,8 @@ the cli binary from /usr/bin.
 
 ## Usage
 
+### Simple usage: defining the poppins::host resource
+
 On your backed up host, this is an example resource you could use:
 
     poppins::host { "$::hostname": 
@@ -102,11 +106,51 @@ Other parameters:
     * $hostdir\_name: by default: $::hostname; this will become the name of the
       zfs file system below your the file system you specified in $zfs;
     * hour: affects start time of the cron job;
+    * minute: ...
     * pre\_backup\_script: will be executed remotely before the backup, useful
       for applications which do not like live backups of their data your zfs
       file system names
     * mysql\_enabled and mysql\_configdirs: enables backing up of MySQL
       databases; see Poppins documentation.
+
+### Hiera integration
+
+Instead of specifying your sources directly as resources, you can instead just
+include the `poppins::client` class, which will pick up the values
+automatically from hiera. Define the parameter "hosts" to the poppins class and 
+Hiera will work its magic:
+
+in common.yaml:
+
+```yaml
+poppins::hosts
+    "%{::clientcert}":
+	zfs: "backups-zpool/poppins-filesystem/servers"
+```
+
+in kids.yaml:
+
+```yaml
+poppins::client::hosts
+    "%{::clientcert}":
+	zfs: "backups-zpool/poppins-filesystem/kidscomputers"
+	hour: "20"
+```
+
+in nodes/myproxyserver.yaml:
+
+```yaml
+poppins::client::hosts
+    "%{::clientcert}":
+	included:
+	    /: "root"
+	    /home: "home"
+	    /var/spool/squid: "squid"
+
+```
+
+Thus, your cron jobs and config file will have recognizeable names, and you can
+use hiera's inheritance features.
 
 ## Reference
 

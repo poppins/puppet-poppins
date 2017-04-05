@@ -35,12 +35,12 @@
 #
 # Copyright 2015 Your name here, unless otherwise noted.
 #
-class poppins (
+class poppins::server (
     $version = "stable",
 ) inherits poppins::params {
-    # nodig: 
-    # poppins repo
-    # directory voor de config files en de logs
+    # we need: 
+    # * poppins sources repo
+    # * directory for config files and logs
     file { "$::poppins::params::maindir": 
 	ensure => directory,
     }
@@ -62,8 +62,8 @@ class poppins (
 	ensure => link,
 	target => "/opt/poppins/init.php",
     }
-    # hier realizen we al de verzamelde poppins::hosts en schrijven een config
-    # file en een cronjob weg. voorlopig parametrerene we niets. 
+    # realize all collected poppins::host resources and write a config file
+    # create a cron job
     Poppins::Configfile  <<|  |>>
     Cron <<| tag == "poppins" |>>
     Zfs <<| tag == "poppins" |>>
