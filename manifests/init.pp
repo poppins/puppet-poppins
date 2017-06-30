@@ -64,7 +64,8 @@ class poppins (
     }
     # hier realizen we al de verzamelde poppins::hosts en schrijven een config
     # file en een cronjob weg. voorlopig parametrerene we niets. 
-    Poppins::Configfile  <<|  |>>
+    #Poppins::Configfile  <<|  |>>
+    File <<| tag == "poppins_config" |>>
     Cron <<| tag == "poppins" |>>
     Zfs <<| tag == "poppins" |>>
 }
