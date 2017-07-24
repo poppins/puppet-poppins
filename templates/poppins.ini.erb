@@ -132,7 +132,11 @@ post-backup-script = "";
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [meta]
 ; report remote disk layout
+<% if remote_user == 'root' -%>
 remote-disk-layout =  yes
+<% else -%>
+remote-disk-layout =  no
+<% end -%>
 ; report remote package list
 remote-package-list =  yes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
