@@ -17,8 +17,12 @@ define poppins::host (
     $configdir = $::poppins::params::configdir
     $configfile_path = "$configdir/$name.poppins.ini"
 
+    validate_hash($included)
+    validate_hash($excluded)
+    validate_hash($snapshots)
+    notify{"poppins config named $name,": }
     @@cron { "poppins-$name":
-	command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin ionice -n 7 /usr/bin/poppins -c \"$configfile_path\" >/dev/null",
+        command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin ionice -n 7 /usr/bin/poppins -t puppet -c \"$configfile_path\" >/dev/null",
         user    => root,
         hour    => $hour,
         minute  => $minute,
@@ -30,6 +34,8 @@ define poppins::host (
         excluded         => $excluded,
         hostdir_name     => $hostdir_name,
         remote_host      => $remote_host,
+        remote_user       => $remote_user,
+        snapshots         => $snapshots,
         rootdir          => "/$zfs",
         logdir           => "$::poppins::params::logdir",
         ensure           => $ensure,

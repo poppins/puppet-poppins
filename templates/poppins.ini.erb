@@ -43,7 +43,7 @@ snapshot-backend = 'zfs'
 ; a template, e.g. poppins --remote-host=webserver1 -c webservers.poppins.ini
 host = '<%= @remote_host %>'
 ; Remote user, usually root. If not specified, same user who executes poppins is assumed.
-user = ''
+user = '<%= remote_user %>'
 ; remote script ran before backup
 ; e.g. pre-backup-script = "/home/poppins/some-pre-backup-script.sh";
 pre-backup-script = "<%= @pre_backup_script %>";
@@ -61,7 +61,12 @@ retry-count = 0
 ; timeout between retries in seconds
 ; default is 0
 retry-timeout = 10
-
+; if the backup job fails, abort or continue with the post-backup script
+; values are "abort" or "continue"
+backup-onfail = "abort";
+; remote script ran after backup
+; e.g. post-backup-script = "/home/poppins/some-post-backup-script.sh";
+post-backup-script = "";
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; INCLUDED DIRECTORIES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -70,8 +75,10 @@ retry-timeout = 10
 ; format: source (remote) = target (local)
 ; may be left empty, if only MySQL is needed
 [included]
-<% if @included.is_a? Hash %>
+<% if included.is_a? Hash %>
 <% @included.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
+<% else %> 
+    <%= fail("included is geen hash in #{hostdir_name}!") %>
 <% end %>
 ; /foo = 'bar'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -92,10 +99,13 @@ retry-timeout = 10
 ; SNAPSHOTS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [snapshots]
+<%# if snapshots.is_a? Hash %>
+<% snapshots.each do |snap, freq| %><%= "#{snap} = '#{freq}'\n" %><% end %>
+<%# end %> 
 ; incremental backups to keep
 ; these backups will be kept until number is reached, in which
 ; case the oldest backup will be removed.  
-incremental = 4
+;incremental = 4
 ; periodic snapshots to keep
 ; syntax: {offset}-{period} = {number of backups to keep}
 ; first number indicates offset: e.g. 2-weekly will keep a snapshot every 2 weeks
@@ -106,23 +116,27 @@ incremental = 4
 ; keep hourly snapshots
 ; 1-hourly = 1
 ; keep daily snapshots
-1-daily = 7
+;1-daily = 7
 ; keep weekly snapshots (7 days)
-1-weekly = 4
+;1-weekly = 4
 ; keep snapshots every 2 weeks (14 days)
 ;2-weekly = 4
 ; keep monthly snapshots (note: a month is considered a 30 day period)
-1-monthly = 3
+;1-monthly = 3
 ; keep snapshots every 6 "months" (note: a month is considered a 30 day period)
 ;6-monthly = 5
 ; keep yearly snapshots
-1-yearly = 1
+;1-yearly = 1
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; METADATA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [meta]
 ; report remote disk layout
+<% if remote_user == 'root' -%>
 remote-disk-layout =  yes
+<% else -%>
+remote-disk-layout =  no
+<% end -%>
 ; report remote package list
 remote-package-list =  yes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -147,6 +161,8 @@ verbose = yes
 retry-count = 1
 ; timeout between retries in seconds
 retry-timeout = 10
+; cross filesystem boundaries
+cross-filesystem-boundaries = no
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; MYSQL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
