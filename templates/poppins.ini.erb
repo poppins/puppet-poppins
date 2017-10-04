@@ -43,7 +43,7 @@ snapshot-backend = 'zfs'
 ; a template, e.g. poppins --remote-host=webserver1 -c webservers.poppins.ini
 host = '<%= @remote_host %>'
 ; Remote user, usually root. If not specified, same user who executes poppins is assumed.
-user = '<%= remote_user %>'
+user = '<%= @remote_user %>'
 ; remote script ran before backup
 ; e.g. pre-backup-script = "/home/poppins/some-pre-backup-script.sh";
 pre-backup-script = "<%= @pre_backup_script %>";
@@ -75,7 +75,7 @@ post-backup-script = "";
 ; format: source (remote) = target (local)
 ; may be left empty, if only MySQL is needed
 [included]
-<% if included.is_a? Hash %>
+<% if @included.is_a? Hash %>
 <% @included.each do |path, dir| %><%= "#{path} = '#{dir}'\n" %><% end %>
 <% else %> 
     <%= fail("included is geen hash in #{hostdir_name}!") %>
@@ -100,7 +100,7 @@ post-backup-script = "";
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [snapshots]
 <%# if snapshots.is_a? Hash %>
-<% snapshots.each do |snap, freq| %><%= "#{snap} = '#{freq}'\n" %><% end %>
+<% @snapshots.each do |snap, freq| %><%= "#{snap} = '#{freq}'\n" %><% end %>
 <%# end %> 
 ; incremental backups to keep
 ; these backups will be kept until number is reached, in which
@@ -132,7 +132,7 @@ post-backup-script = "";
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [meta]
 ; report remote disk layout
-<% if remote_user == 'root' -%>
+<% if @remote_user == 'root' -%>
 remote-disk-layout =  yes
 <% else -%>
 remote-disk-layout =  no
@@ -174,7 +174,7 @@ enabled = <%= @mysql_enabled %>
 ; multiple directories may be seperated by comma
 ; e.g. configdirs = '/root,/home/poppins';
 <% if @mysql_configdirs %>
-configdirs = <%= mysql_configdirs %>
+configdirs = <%= @mysql_configdirs %>
 <% else %>
 configdirs = ''
 <% end %>

@@ -12,6 +12,15 @@ class poppins::params {
     $excluded          =  { "/" => "/tmp" }
     $hostdir_name      = $::hostname
     $remote_host       = "$::ipaddress"
+    $remote_user      = 'root'
+    $snapshots = {
+    	"incremental" => 4,
+    	"1-daily"     => 7,
+    	"1-weekly"    => 4,
+    	"1-monthly"   => 3,
+	"1-yearly"    => 1,
+    }
+
     $ensure            = present
     $pre_backup_script = ""
     $mysql_enabled     = false

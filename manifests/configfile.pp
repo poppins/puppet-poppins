@@ -12,7 +12,7 @@ define poppins::configfile (
     $mysql_configdirs=undef, 
     $pre_backup_script=""
 ) { 
-    @@file { "$name":
+    file { "$name":
 	content => template ("$module_name/poppins.ini.erb"),
 	tag     => "poppins_config",
     }

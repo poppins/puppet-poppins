@@ -3,6 +3,8 @@ define poppins::host (
     $included          = $poppins::params::included,
     $excluded          = $poppins::params::excluded,
     $remote_host       = $poppins::params::remote_host,
+    $remote_user       = $poppins::params::remote_user,
+    $snapshots         = $poppins::params::snapshots,
     $ensure            = $poppins::params::ensure,
     $pre_backup_script = $poppins::params::pre_backup_script,
     $mysql_enabled     = $poppins::params::mysql_enabled,
