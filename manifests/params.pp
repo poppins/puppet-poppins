@@ -9,7 +9,7 @@ class poppins::params {
 	"/boot"     => "boot",
 	"/home"     => "home",
     }
-    $excluded          =  { "/" => "/tmp" }
+    $excluded          =  { "/" => "tmp" }
     $hostdir_name      = $::hostname
     $remote_host       = "$::ipaddress"
     $remote_user      = 'root'
