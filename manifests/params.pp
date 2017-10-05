@@ -17,7 +17,8 @@ class poppins::params {
     	"incremental" => 4,
     	"1-daily"     => 7,
     	"1-weekly"    => 4,
-    	"1-monthly"   => 3,
+    	"1-monthly"   => 6,
+    	"6-monthly"   => 2,
 	"1-yearly"    => 1,
     }
 
