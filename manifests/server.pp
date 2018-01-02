@@ -36,7 +36,8 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class poppins::server (
-    $version = "stable",
+    $version    = "stable",
+    $poppinstag = $poppins::params::poppinstag,
 ) inherits poppins::params {
     # we need: 
     # * poppins sources repo
@@ -64,7 +65,8 @@ class poppins::server (
     }
     # realize all collected poppins::host resources and write a config file
     # create a cron job
-    Poppins::Configfile  <<|  |>>
-    Cron <<| tag == "poppins" |>>
-    Zfs <<| tag == "poppins" |>>
+    notify { "realizing poppinses: tag $poppinstag": }
+    Poppins::Configfile  <<| tag == "$poppinstag" |>>
+    Cron <<| tag == "$poppinstag" |>>
+    Zfs <<| tag == "$poppinstag" |>>
 }

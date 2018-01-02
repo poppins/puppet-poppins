@@ -12,6 +12,7 @@ define poppins::host (
     $hour              = $poppins::params::hour,
     $minute            = $poppins::params::minute,
     $hostdir_name      = $poppins::params::hostdir_name,
+    $poppinstag        = $poppins::client::poppinstag,
 )  {
 
     include poppins::params
@@ -28,29 +29,30 @@ define poppins::host (
         user    => root,
         hour    => $hour,
         minute  => $minute,
-        tag     => poppins,
+        tag     => $poppinstag,
         ensure  => $ensure,
     }
     @@poppins::configfile { "$configfile_path":
-        included         => $included,
-        excluded         => $excluded,
-        hostdir_name     => $hostdir_name,
-        remote_host      => $remote_host,
+        included          => $included,
+        excluded          => $excluded,
+        hostdir_name      => $hostdir_name,
+        remote_host       => $remote_host,
         remote_user       => $remote_user,
         snapshots         => $snapshots,
-        rootdir          => "/$zfs",
-        logdir           => "$::poppins::params::logdir",
-        ensure           => $ensure,
-        mysql_enabled    => $mysql_enabled,
-        mysql_configdirs => $mysql_configdirs,
+        rootdir           => "/$zfs",
+        logdir            => "$::poppins::params::logdir",
+        ensure            => $ensure,
+        mysql_enabled     => $mysql_enabled,
+        mysql_configdirs  => $mysql_configdirs,
         pre_backup_script => $pre_backup_script,
+        tag               => $poppinstag,
     }
     @@zfs { "$zfs/$hostdir_name": 
         ensure => present,
-        tag     => poppins,
+        tag     => $poppinstag,
     }
     @@zfs { "$zfs/$hostdir_name/rsync.zfs": 
         ensure => present,
-        tag     => poppins,
+        tag     => $poppinstag,
     }
 }

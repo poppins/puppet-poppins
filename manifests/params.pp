@@ -28,4 +28,5 @@ class poppins::params {
     $mysql_configdirs  = undef
     $hour              = 0
     $minute            = 2
+    $poppinstag        = 'default'
 }
