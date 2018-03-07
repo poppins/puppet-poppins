@@ -10,7 +10,8 @@ define poppins::configfile (
     $ensure, 
     $mysql_enabled, 
     $mysql_configdirs=undef, 
-    $pre_backup_script=""
+    $pre_backup_script="",
+    $timestamps,
 ) { 
     file { "$name":
 	content => template ("$module_name/poppins.ini.erb"),

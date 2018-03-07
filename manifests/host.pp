@@ -13,6 +13,7 @@ define poppins::host (
     $minute            = $poppins::params::minute,
     $hostdir_name      = $poppins::params::hostdir_name,
     $poppinstag        = $poppins::client::poppinstag,
+    $timestamps        = $poppins::client::timestamps,
 )  {
 
     include poppins::params
@@ -23,7 +24,7 @@ define poppins::host (
     validate_hash($included)
     validate_hash($excluded)
     validate_hash($snapshots)
-    notify{"poppins config named $name,": }
+
     @@cron { "poppins-$name":
         command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin ionice -n 7 /usr/bin/poppins -t puppet -c \"$configfile_path\" >/dev/null",
         user    => root,
@@ -46,6 +47,7 @@ define poppins::host (
         mysql_configdirs  => $mysql_configdirs,
         pre_backup_script => $pre_backup_script,
         tag               => $poppinstag,
+        timestamps        => $timestamps,
     }
     @@zfs { "$zfs/$hostdir_name": 
         ensure => present,

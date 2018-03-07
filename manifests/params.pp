@@ -29,4 +29,5 @@ class poppins::params {
     $hour              = 0
     $minute            = 2
     $poppinstag        = 'default'
+    $timestamps        = false
 }
