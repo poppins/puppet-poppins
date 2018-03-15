@@ -161,7 +161,7 @@ with things. (We are working on automating this section!)
 
 ## Limitations
 
-Tested using Puppet 3.6 on Linux (Debian 6-8, Red Hat 6-7) and OpenIndiana
+Tested using Puppet 3.6 and 4.10 on Linux (Debian 6-9, Red Hat 6-7) and OpenIndiana
 (151a9) both as backup server and as client machine.
 
 ## Development

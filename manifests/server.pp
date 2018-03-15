@@ -36,7 +36,6 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class poppins::server (
-    $version    = "stable",
     $poppinstag = $poppins::params::poppinstag,
 ) inherits poppins::params {
     # we need: 
