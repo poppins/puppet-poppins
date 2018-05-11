@@ -14,6 +14,7 @@ define poppins::host (
     $hostdir_name      = $poppins::params::hostdir_name,
     $poppinstag        = $poppins::client::poppinstag,
     $timestamps        = $poppins::client::timestamps,
+    $logdir            = $poppins::client::logdir,
 )  {
 
     include poppins::params
@@ -41,7 +42,7 @@ define poppins::host (
         remote_user       => $remote_user,
         snapshots         => $snapshots,
         rootdir           => "/$zfs",
-        logdir            => "$::poppins::params::logdir",
+        logdir            => $logdir,
         ensure            => $ensure,
         mysql_enabled     => $mysql_enabled,
         mysql_configdirs  => $mysql_configdirs,

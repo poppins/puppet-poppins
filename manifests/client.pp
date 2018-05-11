@@ -1,8 +1,10 @@
 class poppins::client (
-    $hosts = {},
+    Hash $hosts = {},
     $poppinstag = $poppins::params::poppinstag,
     $hour       = $poppins::params::hour,
     $minute     = $poppins::params::minute,
+    $timestamps = $poppins::params::timestamps,
+    $logdir     = $poppins::params::logdir,
 ) inherits poppins::params 
 { 
     if $hosts {
