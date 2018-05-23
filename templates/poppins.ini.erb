@@ -49,7 +49,7 @@ user = '<%= @remote_user %>'
 pre-backup-script = "<%= @pre_backup_script %>";
 ; if the remote job fails, abort or continue with poppins backups
 ; values are "abort" or "continue"
-pre-backup-onfail = "abort";
+pre-backup-onfail = "<%= @pre_backup_onfail %>";
 ; enable remote connection with ssh, default is yes
 ; disable if backing up local directories (e.g. to an external drive)
 ; host and user directives are disregarded in case ssh is disabled
@@ -63,10 +63,10 @@ retry-count = 0
 retry-timeout = 10
 ; if the backup job fails, abort or continue with the post-backup script
 ; values are "abort" or "continue"
-backup-onfail = "abort";
+backup-onfail = "<%= @backup_onfail %>";
 ; remote script ran after backup
 ; e.g. post-backup-script = "/home/poppins/some-post-backup-script.sh";
-post-backup-script = "";
+post-backup-script = "<%= @post_backup_script %>";
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; INCLUDED DIRECTORIES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

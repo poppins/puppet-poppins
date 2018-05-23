@@ -22,12 +22,15 @@ class poppins::params {
 	"1-yearly"    => 1,
     }
 
-    $ensure            = present
-    $pre_backup_script = ""
-    $mysql_enabled     = false
-    $mysql_configdirs  = undef
-    $hour              = 0
-    $minute            = 2
-    $poppinstag        = 'default'
-    $timestamps        = false
+    $ensure             = present
+    $pre_backup_script  = ""
+    $pre_backup_onfail  = abort
+    $backup_onfail      = abort
+    $post_backup_script = ""
+    $mysql_enabled      = false
+    $mysql_configdirs   = undef
+    $hour               = 0
+    $minute             = 2
+    $poppinstag         = 'default'
+    $timestamps         = false
 }

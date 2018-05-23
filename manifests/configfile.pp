@@ -11,6 +11,9 @@ define poppins::configfile (
     $mysql_enabled, 
     $mysql_configdirs=undef, 
     $pre_backup_script="",
+    $pre_backup_onfail="",
+    $post_backup_script="",
+    $backup_onfail="",
     $timestamps,
 ) { 
     file { "$name":
