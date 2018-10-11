@@ -29,6 +29,7 @@ class poppins::params {
     $post_backup_script = ""
     $mysql_enabled      = false
     $mysql_configdirs   = undef
+    $mysql_output       = 'database'
     $hour               = 0
     $minute             = 2
     $poppinstag         = 'default'

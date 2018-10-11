@@ -9,6 +9,7 @@ define poppins::configfile (
     $rootdir,
     $ensure, 
     $mysql_enabled, 
+    $mysql_output, 
     $mysql_configdirs=undef, 
     $pre_backup_script="",
     $pre_backup_onfail="",

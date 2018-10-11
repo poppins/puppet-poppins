@@ -62,9 +62,10 @@ class poppins::server (
 	ensure => link,
 	target => "/opt/poppins/init.php",
     }
+
     # realize all collected poppins::host resources and write a config file
     # create a cron job
-    notify { "realizing poppinses: tag $poppinstag": }
+
     Poppins::Configfile  <<| tag == "$poppinstag" |>>
     Cron <<| tag == "$poppinstag" |>>
     Zfs <<| tag == "$poppinstag" |>>
