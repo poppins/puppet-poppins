@@ -51,11 +51,11 @@ ssh = yes
 ; ssh connection retries if desired
 ; check is applied on first connection attempt
 ; default is 0
-retry-count = 0
+retry-count = <%= @remote_retry_count %>
 
 ; timeout between retries in seconds
 ; default is 0
-retry-timeout = 10
+retry-timeout = <%= @remote_retry_timeout %>
 
 ; IP or resolvable host name. This variable may be overriden on the cli
 ; as any parameter in this config file. For example, you may use this ini file as 
@@ -179,9 +179,9 @@ hardlinks = yes
 ; verbose rsync, default is no
 verbose = yes
 ; retries if desired
-retry-count = 1
+retry-count = <%= @rsync_retry_count %>
 ; timeout between retries in seconds
-retry-timeout = 10
+retry-timeout = <%= @rsync_retry_timeout %>
 ; cross filesystem boundaries
 cross-filesystem-boundaries = no
 

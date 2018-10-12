@@ -13,6 +13,10 @@ class poppins::params {
     $hostdir_name         = $::hostname
     $remote_host          = "$::ipaddress"
     $remote_user          = 'root'
+    $remote_retry_count   = 0
+    $remote_retry_timeout = 10
+    $rsync_retry_count    = 1
+    $rsync_retry_timeout  = 10
     $snapshots = {
     	"incremental" => 4,
     	"1-daily"     => 7,
