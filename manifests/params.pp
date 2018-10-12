@@ -1,18 +1,18 @@
 class poppins::params {
-    $maindir = "/root/poppins.d"
-    $logdir = "/root/poppins.d/logs"
-    $configdir = "/root/poppins.d/config"
-    $zfs       = "backups/poppins/server"
-    $included =  { 
+    $maindir              = "/root/poppins.d"
+    $logdir               = "/root/poppins.d/logs"
+    $configdir            = "/root/poppins.d/config"
+    $zfs                  = "backups/poppins/server"
+    $included             =  { 
 	"/"         => "root",
 	"/var"      => "var",
 	"/boot"     => "boot",
 	"/home"     => "home",
     }
-    $excluded          =  { "/" => "tmp" }
-    $hostdir_name      = $::hostname
-    $remote_host       = "$::ipaddress"
-    $remote_user      = 'root'
+    $excluded             =  { "/" => "tmp" }
+    $hostdir_name         = $::hostname
+    $remote_host          = "$::ipaddress"
+    $remote_user          = 'root'
     $snapshots = {
     	"incremental" => 4,
     	"1-daily"     => 7,
@@ -22,16 +22,16 @@ class poppins::params {
 	"1-yearly"    => 1,
     }
 
-    $ensure             = present
-    $pre_backup_script  = ""
-    $pre_backup_onfail  = abort
-    $backup_onfail      = abort
-    $post_backup_script = ""
-    $mysql_enabled      = false
-    $mysql_configdirs   = undef
-    $mysql_output       = 'database'
-    $hour               = 0
-    $minute             = 2
-    $poppinstag         = 'default'
-    $timestamps         = false
+    $ensure               = present
+    $pre_backup_script    = ""
+    $pre_backup_onfail    = abort
+    $backup_onfail        = abort
+    $post_backup_script   = ""
+    $mysql_enabled        = false
+    $mysql_configdirs     = undef
+    $mysql_output         = 'database'
+    $hour                 = 0
+    $minute               = 2
+    $poppinstag           = 'default'
+    $timestamps           = false
 }
