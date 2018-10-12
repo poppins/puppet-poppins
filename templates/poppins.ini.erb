@@ -148,17 +148,17 @@ post-backup-script = "<%= @post_backup_script %>";
 ; METADATA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [meta]
-; report remote disk layout
 <% if @remote_user == 'root' -%>
+; report remote disk layout
 remote-disk-layout =  yes
+; include restore scripts
+restore-scripts = yes
 <% else -%>
 remote-disk-layout =  no
+restore-scripts = no
 <% end -%>
 ; report remote package list
 remote-package-list =  yes
-
-; include restore scripts
-restore-scripts = yes
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; LOG
