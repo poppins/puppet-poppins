@@ -24,6 +24,7 @@ define poppins::configfile (
     file { "$name":
 	content => template ("$module_name/poppins.ini.erb"),
 	tag     => "poppins_config",
+	ensure  => $ensure,
     }
 }
 

@@ -68,12 +68,14 @@ define poppins::host (
         timestamps           => $timestamps,
     }
 
-    @@zfs { "$zfs/$hostdir_name": 
-        ensure => present,
-        tag     => $poppinstag,
-    }
-    @@zfs { "$zfs/$hostdir_name/rsync.zfs": 
-        ensure => present,
-        tag     => $poppinstag,
+    if ( $ensure == present ){
+	@@zfs { "$zfs/$hostdir_name": 
+	    ensure => present,
+	    tag    => $poppinstag,
+	}
+	@@zfs { "$zfs/$hostdir_name/rsync.zfs": 
+	    ensure => present,
+	    tag    => $poppinstag,
+	}
     }
 }
