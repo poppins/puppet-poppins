@@ -23,6 +23,7 @@ define poppins::host (
     $poppinstag           = $poppins::client::poppinstag,
     $timestamps           = $poppins::client::timestamps,
     $logdir               = $poppins::client::logdir,
+    $executable           = $poppins::client::executable,
 )  {
 
     include poppins::params
@@ -35,7 +36,7 @@ define poppins::host (
     validate_hash($snapshots)
 
     @@cron { "poppins-$name":
-        command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin ionice -n 7 /usr/bin/poppins -t puppet -c \"$configfile_path\" >/dev/null",
+        command => "PATH=/opt/csw/bin:/usr/gnu/bin:/usr/bin:/bin:/usr/sbin:/sbin ionice -n 7 \"$executable\" -t puppet -c \"$configfile_path\" >/dev/null",
         user    => root,
         hour    => $hour,
         minute  => $minute,

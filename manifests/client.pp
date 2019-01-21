@@ -5,6 +5,7 @@ class poppins::client (
     $minute     = $poppins::params::minute,
     $timestamps = $poppins::params::timestamps,
     $logdir     = $poppins::params::logdir,
+    $executable = $poppins::params::executable,
 ) inherits poppins::params 
 { 
     if $hosts {
