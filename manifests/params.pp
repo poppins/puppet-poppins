@@ -11,6 +11,7 @@ class poppins::params {
     }
     $excluded             =  { "/" => "tmp" }
     $hostdir_name         = $::hostname
+    $remote_ssh_port      = 22
     $remote_host          = "$::ipaddress"
     $remote_user          = 'root'
     $remote_retry_count   = 0

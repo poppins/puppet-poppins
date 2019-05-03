@@ -48,6 +48,9 @@ snapshot-backend = 'zfs'
 ; host and user directives are disregarded in case ssh is disabled
 ssh = yes
 
+; Ssh remote port, default is 22
+port = <%= @remote_ssh_port %>
+
 ; ssh connection retries if desired
 ; check is applied on first connection attempt
 ; default is 0

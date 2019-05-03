@@ -2,6 +2,7 @@ define poppins::configfile (
     $included, 
     $excluded, 
     $logdir, 
+    $remote_ssh_port,
     $remote_retry_count,
     $remote_retry_timeout,
     $remote_host, 
