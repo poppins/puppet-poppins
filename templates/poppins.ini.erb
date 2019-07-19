@@ -120,7 +120,7 @@ post-backup-script = "<%= @post_backup_script %>";
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [snapshots]
 <%# if snapshots.is_a? Hash %>
-<% @snapshots.each do |snap, freq| %><%= "#{snap} = '#{freq}'\n" %><% end %>
+<% @snapshots.each do |snap, freq| %><%= "#{snap} = #{freq}\n" %><% end %>
 <%# end %> 
 ; incremental backups to keep
 ; these backups will be kept until number is reached, in which
