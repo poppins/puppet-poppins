@@ -151,6 +151,9 @@ post-backup-script = "<%= @post_backup_script %>";
 ; METADATA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [meta]
+; report hardware layout
+remote-hardware-layout =  yes
+
 <% if @remote_user == 'root' -%>
 ; report remote disk layout
 remote-disk-layout =  yes
