@@ -39,5 +39,6 @@ class poppins::params {
     $minute               = 2
     $poppinstag           = 'default'
     $timestamps           = false
+    $poppins_version      = 'v0.5'
     $executable           = "/usr/bin/poppins"
 }

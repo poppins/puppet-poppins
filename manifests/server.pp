@@ -36,7 +36,8 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class poppins::server (
-    $poppinstag = $poppins::params::poppinstag,
+    $poppinstag      = $poppins::params::poppinstag,
+    $poppins_version = $poppins::params::poppins_version,
 ) inherits poppins::params {
     # we need: 
     # * poppins sources repo
@@ -53,12 +54,11 @@ class poppins::server (
 
     vcsrepo { "/opt/poppins":
 	ensure   => "present", 
-	provider => hg,
-	revision => "default",
-	source   => "https://bitbucket.org/poppins/poppins",
-	require  => Class['php'],
+	provider => git,
+	revision => $poppins_version,
+	source   => "https://github.com/poppins/poppins",
     }
-    file { "/usr/bin/poppins":
+    file { "$executable":
 	ensure => link,
 	target => "/opt/poppins/init.php",
     }

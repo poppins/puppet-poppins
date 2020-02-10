@@ -39,6 +39,7 @@ The file system in question will be created automatically, Poppins will be insta
 On the host that will be backed up, information is gathered such as the hostname of ip address of the machine. 
 
 On the backup machine:
+
     * A Mercurial repository will be created in /opt/poppins containing the
       latest edition of poppins
     * Configuration files for each backup job will be created in
@@ -101,6 +102,7 @@ A slightly more elaborate configuration could be:
     }
 
 Other parameters:
+
     * $remote\_host: will be used as host name to which to connect; you could
       use $::ipaddress for example;
     * $hostdir\_name: by default: $::hostname; this will become the name of the
@@ -125,7 +127,7 @@ in common.yaml:
 ```yaml
 poppins::hosts
     "%{::clientcert}":
-	zfs: "backups-zpool/poppins-filesystem/servers"
+        zfs: "backups-zpool/poppins-filesystem/servers"
 ```
 
 in kids.yaml:
@@ -133,8 +135,8 @@ in kids.yaml:
 ```yaml
 poppins::client::hosts
     "%{::clientcert}":
-	zfs: "backups-zpool/poppins-filesystem/kidscomputers"
-	hour: "20"
+        zfs: "backups-zpool/poppins-filesystem/kidscomputers"
+        hour: "20"
 ```
 
 in nodes/myproxyserver.yaml:
@@ -142,10 +144,10 @@ in nodes/myproxyserver.yaml:
 ```yaml
 poppins::client::hosts
     "%{::clientcert}":
-	included:
-	    /: "root"
-	    /home: "home"
-	    /var/spool/squid: "squid"
+        included:
+            /: "root"
+            /home: "home"
+            /var/spool/squid: "squid"
 
 ```
 
