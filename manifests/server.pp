@@ -43,24 +43,28 @@ class poppins::server (
     # * poppins sources repo
     # * directory for config files and logs
     file { "$::poppins::params::maindir": 
-	ensure => directory,
+        ensure => directory,
     }
     file { "$::poppins::params::logdir": 
-	ensure => directory,
+        ensure => directory,
     }
     file { "$::poppins::params::configdir": 
-	ensure => directory,
+        ensure       => directory,
+        purge        => true,
+        recurse      => true,
+        recurselimit => 1,
     }
 
     vcsrepo { "/opt/poppins":
-	ensure   => "present", 
-	provider => git,
-	revision => $poppins_version,
-	source   => "https://github.com/poppins/poppins",
+        ensure   => "present",
+        provider => git,
+        revision => $poppins_version,
+        source   => "https://github.com/poppins/poppins",
     }
+
     file { "$executable":
-	ensure => link,
-	target => "/opt/poppins/init.php",
+        ensure => link,
+        target => "/opt/poppins/init.php",
     }
 
     # realize all collected poppins::host resources and write a config file
