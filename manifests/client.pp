@@ -6,9 +6,9 @@ class poppins::client (
     $timestamps = $poppins::params::timestamps,
     $logdir     = $poppins::params::logdir,
     $executable = $poppins::params::executable,
-) inherits poppins::params 
-{ 
+) inherits poppins::params
+{
     if $hosts {
-	create_resources('poppins::host', $hosts)
+        create_resources('poppins::host', $hosts)
     }
 }
