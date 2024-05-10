@@ -16,8 +16,8 @@
 ; root dir (parent dir for backups)
 ; use an absolute path
 ; e.g. rootdir = /backups/hosts
-; rootdir = "/backups/hosts"
 rootdir = "<%= @rootdir %>"
+
 ; each backup log will be written to this directory
 ; you may use a directory per host or one for all hosts
 ; the poppins application log (poppins.log) will also log here
@@ -39,6 +39,7 @@ hostdir-create = yes
 ; filesystem snapshots instead
 ; values are "default", "btrfs" or "zfs"
 snapshot-backend = 'zfs'
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; REMOTE 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -64,6 +65,13 @@ retry-timeout = <%= @remote_retry_timeout %>
 ; as any parameter in this config file. For example, you may use this ini file as 
 ; a template, e.g. poppins --remote-host=webserver1 -c webservers.poppins.ini
 host = '<%= @remote_host %>'
+
+; Use ipv6. This will force ssh and rsync to connect through ipv6.
+; If you use a host name as "host", it will need to resolve as an ipv6 address.
+; NOTE: link-local addresses (starting with "fe80::") need to have the outgoing
+; network interface on your backup machine appended to it, like so:
+; fe80::1234:abcd:00c0:ffee%eth0
+ipv6 = <%= @ipv6 %>
 
 ; Remote user, usually root. If not specified, user executing poppins is assumed.
 user = '<%= @remote_user %>'
@@ -126,6 +134,7 @@ post-backup-script = "<%= @post_backup_script %>";
 ; these backups will be kept until number is reached, in which
 ; case the oldest backup will be removed.  
 ;incremental = 4
+
 ; periodic snapshots to keep
 ; syntax: {offset}-{period} = {number of backups to keep}
 ; first number indicates offset: e.g. 2-weekly will keep a snapshot every 2 weeks

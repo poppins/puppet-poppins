@@ -1,3 +1,4 @@
+# Set defaults for main class
 class poppins::params {
     $maindir              = "/root/poppins.d"
     $logdir               = "/root/poppins.d/logs"
@@ -14,6 +15,7 @@ class poppins::params {
     $remote_ssh_port      = 22
     $remote_host          = $facts[networking][ip]
     $remote_user          = 'root'
+    $ipv6                 = false
     $remote_retry_count   = 0
     $remote_retry_timeout = 10
     $rsync_retry_count    = 1
